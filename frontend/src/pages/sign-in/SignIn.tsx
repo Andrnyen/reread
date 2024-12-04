@@ -17,6 +17,13 @@ import ForgotPassword from "./ForgotPassword";
 import { GoogleIcon, FacebookIcon } from "./CustomIcons";
 import AppTheme from "../shared-theme/AppTheme";
 import ColorModeSelect from "../shared-theme/ColorModeSelect";
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  User,
+} from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -60,7 +67,12 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props: { disableCustomTheme?: boolean }) {
+export default function SignIn(props: {
+  disableCustomTheme?: boolean;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}) {
+  const navigate = useNavigate();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -75,16 +87,33 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
+  onAuthStateChanged(auth, (currentUser) => {
+    props.setUser(currentUser);
+  });
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        data.get("email") as string,
+        data.get("password") as string
+      );
+
+      console.log(user);
+      navigate("/dashboard");
+    } catch (error) {
+      let msg = (error as Error).message;
+      console.log(msg);
+      alert(msg);
+    }
   };
 
   const validateInputs = () => {
