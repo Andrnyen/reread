@@ -4,6 +4,7 @@ import SignIn from "./pages/sign-in/SignIn";
 import Dashboard from "./pages/Dashboard";
 import React from "react";
 import { User } from "firebase/auth";
+import SignUp from "./pages/sign-up/SignUp";
 
 function App() {
   const [user, setUser] = React.useState<User | null>(null);
@@ -11,6 +12,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<SignIn setUser={setUser}></SignIn>}></Route>
+        <Route path="/sign-up" element={<SignUp></SignUp>}></Route>
         <Route
           path="/dashboard"
           element={
