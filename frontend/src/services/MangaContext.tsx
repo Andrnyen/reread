@@ -6,23 +6,7 @@ import {
   ReactNode,
 } from "react";
 import axios from "axios";
-
-type Title = { en: string };
-
-type Manga = {
-  id: string;
-  attributes: {
-    title: Title;
-    altTitles: Title[];
-  };
-  relationships: {
-    attributes?: {
-      fileName: string;
-    };
-    type: string;
-    id: string;
-  }[];
-};
+import { Manga } from "../types/Manga";
 
 type MangaContextType = {
   mangas: Manga[];
