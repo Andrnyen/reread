@@ -30,8 +30,8 @@ export default function MangaCard({ manga, coverArtFileName }: MangaCardProps) {
           No cover art
         </div>
       )}
-      <CardContent sx={{ height: 10 }}>
-        <Typography noWrap>
+      <CardContent sx={{ height: 10, backgroundColor: "#3d3d3d" }}>
+        <Typography sx={{ color: "white" }} noWrap>
           {manga.attributes.title.en
             ? manga.attributes.title.en
             : manga.attributes.altTitles.filter((e) => "en" in e)[0].en}
