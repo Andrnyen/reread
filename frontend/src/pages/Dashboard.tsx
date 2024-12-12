@@ -26,11 +26,14 @@ export default function Dashboard() {
       </Typography>
     );
 
-  console.log(mangas);
-
   return (
-    <Container>
-      <AppBar position="static">
+    <Container maxWidth={false} disableGutters>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "#242424",
+        }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -40,9 +43,7 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
+
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
@@ -58,7 +59,7 @@ export default function Dashboard() {
         <Typography variant="h3">Popular</Typography>
         <Box sx={{ overflow: "hidden" }}>
           <Swiper
-            slidesPerView={7}
+            slidesPerView={15}
             spaceBetween={10}
             autoplay={{
               delay: 2500,
