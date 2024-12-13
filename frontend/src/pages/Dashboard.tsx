@@ -31,7 +31,7 @@ export default function Dashboard() {
         Error: {error}
       </Typography>
     );
-
+  console.log(mangas);
   return (
     <Container maxWidth={false} disableGutters>
       <AppBar
