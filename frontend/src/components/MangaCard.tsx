@@ -8,30 +8,48 @@ interface MangaCardProps {
 
 export default function MangaCard({ manga, coverArtFileName }: MangaCardProps) {
   return (
-    <Card>
+    <Card
+      square={true}
+      sx={{
+        backgroundColor: "transparent",
+        boxShadow: "none",
+      }}
+    >
       {coverArtFileName ? (
         <CardMedia
           component="img"
           alt={manga.attributes.title.en}
           image={`https://uploads.mangadex.org/covers/${manga.id}/${coverArtFileName}`}
           title={manga.attributes.title.en}
-          sx={{ height: 250 }}
+          sx={{ objectFit: "cover", aspectRatio: "0.65" }}
         />
       ) : (
         <div
           style={{
             backgroundColor: "#ccc",
-            display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: 300,
           }}
         >
           No cover art
         </div>
       )}
-      <CardContent sx={{ height: 10, backgroundColor: "#3d3d3d" }}>
-        <Typography sx={{ color: "white" }} noWrap>
+      <CardContent
+        sx={{
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            color: "white",
+            display: "-webkit-box", // Necessary for truncating multiple lines
+            WebkitBoxOrient: "vertical", // Define the box orientation
+            WebkitLineClamp: 1, // Limit to 2 lines (adjust as needed)
+          }}
+          align="center"
+        >
           {manga.attributes.title.en
             ? manga.attributes.title.en
             : manga.attributes.altTitles.filter((e) => "en" in e)[0].en}

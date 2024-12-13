@@ -1,7 +1,6 @@
 import {
   AppBar,
   Box,
-  Button,
   CircularProgress,
   Container,
   IconButton,
@@ -12,13 +11,20 @@ import { useManga } from "../services/MangaContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import MangaCard from "../components/MangaCard";
-import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+
 import "swiper/css";
 
 export default function Dashboard() {
   const { mangas, isLoading, error } = useManga();
 
-  if (isLoading) return <CircularProgress />;
+  if (isLoading)
+    return (
+      <div>
+        <CircularProgress />
+      </div>
+    );
   if (error)
     return (
       <Typography variant="h6" color="error">
@@ -39,12 +45,19 @@ export default function Dashboard() {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="menu"
+            aria-label="profile"
           >
-            <MenuIcon />
+            <AccountCircleIcon fontSize="inherit" />
           </IconButton>
 
-          <Button color="inherit">Login</Button>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="profile"
+          >
+            <BookmarkIcon fontSize="inherit" />
+          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -54,12 +67,14 @@ export default function Dashboard() {
           flexDirection: "column",
           justifyContent: "flex-start",
           height: "100vh",
+          p: { xs: 2, sm: 3, md: 3, ld: 2 },
         }}
       >
-        <Typography variant="h3">Popular</Typography>
-        <Box sx={{ overflow: "hidden" }}>
+        <Typography variant="h4" align="left" sx={{ pb: 2 }}>
+          Featured
+        </Typography>
+        <Box>
           <Swiper
-            slidesPerView={15}
             spaceBetween={10}
             autoplay={{
               delay: 2500,
@@ -68,6 +83,20 @@ export default function Dashboard() {
             navigation={true}
             modules={[Autoplay]}
             className="mySwiper"
+            breakpoints={{
+              640: {
+                slidesPerView: 4,
+              },
+              768: {
+                slidesPerView: 5,
+              },
+              1024: {
+                slidesPerView: 7,
+              },
+              0: {
+                slidesPerView: 3,
+              },
+            }}
           >
             {mangas.map((manga) => {
               const coverArt = manga.relationships.find(
