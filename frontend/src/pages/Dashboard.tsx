@@ -54,12 +54,12 @@ export default function Dashboard() {
       >
         <MangaSwiper
           title="Popular"
-          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&order%5BfollowedCount%5D=desc"
+          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating%5B%5D=safe&order%5BfollowedCount%5D=desc"
         ></MangaSwiper>
 
         <MangaSwiper
           title="Latest"
-          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&order%5BlatestUploadedChapter%5D=desc"
+          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating%5B%5D=safe&order%5BlatestUploadedChapter%5D=desc"
         ></MangaSwiper>
       </Box>
     </Container>
