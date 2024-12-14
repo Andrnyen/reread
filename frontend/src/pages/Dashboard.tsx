@@ -1,17 +1,9 @@
-import {
-  AppBar,
-  Box,
-  Container,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Container, IconButton, Toolbar } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SearchIcon from "@mui/icons-material/Search";
 import MangaSwiper from "../components/MangaSwiper";
 
-// https://api.mangadex.org/manga?limit=30&includes[]=cover_art&order%5BfollowedCount%5D=desc
 export default function Dashboard() {
   return (
     <Container maxWidth={false} disableGutters>
