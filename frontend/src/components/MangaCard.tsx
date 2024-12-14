@@ -15,7 +15,7 @@ export default function MangaCard({ manga, coverArtFileName }: MangaCardProps) {
         boxShadow: "none",
       }}
     >
-      {coverArtFileName ? (
+      {coverArtFileName !== "" ? (
         <CardMedia
           component="img"
           alt={manga.attributes.title.en}

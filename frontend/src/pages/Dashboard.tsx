@@ -1,37 +1,18 @@
 import {
   AppBar,
   Box,
-  CircularProgress,
   Container,
   IconButton,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useManga } from "../services/MangaContext";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import MangaCard from "../components/MangaCard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import SearchIcon from "@mui/icons-material/Search";
+import MangaSwiper from "../components/MangaSwiper";
 
-import "swiper/css";
-
+// https://api.mangadex.org/manga?limit=30&includes[]=cover_art&order%5BfollowedCount%5D=desc
 export default function Dashboard() {
-  const { mangas, isLoading, error } = useManga();
-
-  if (isLoading)
-    return (
-      <div>
-        <CircularProgress />
-      </div>
-    );
-  if (error)
-    return (
-      <Typography variant="h6" color="error">
-        Error: {error}
-      </Typography>
-    );
-  console.log(mangas);
   return (
     <Container maxWidth={false} disableGutters>
       <AppBar
@@ -54,9 +35,18 @@ export default function Dashboard() {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="profile"
+            aria-label="bookmark"
           >
             <BookmarkIcon fontSize="inherit" />
+          </IconButton>
+
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="search"
+          >
+            <SearchIcon fontSize="inherit" />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -70,54 +60,15 @@ export default function Dashboard() {
           p: { xs: 2, sm: 3, md: 3, ld: 2 },
         }}
       >
-        <Typography variant="h4" align="left" sx={{ pb: 2 }}>
-          Featured
-        </Typography>
-        <Box>
-          <Swiper
-            spaceBetween={10}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-            }}
-            navigation={true}
-            modules={[Autoplay]}
-            className="mySwiper"
-            breakpoints={{
-              640: {
-                slidesPerView: 4,
-              },
-              768: {
-                slidesPerView: 5,
-              },
-              1024: {
-                slidesPerView: 7,
-              },
-              0: {
-                slidesPerView: 3,
-              },
-            }}
-          >
-            {mangas.map((manga) => {
-              const coverArt = manga.relationships.find(
-                (e) => e.type === "cover_art"
-              );
-              const coverArtFileName: string = coverArt
-                ? coverArt.attributes?.fileName
-                  ? coverArt.attributes!.fileName
-                  : ""
-                : "";
-              return (
-                <SwiperSlide key={manga.id}>
-                  <MangaCard
-                    manga={manga}
-                    coverArtFileName={coverArtFileName}
-                  ></MangaCard>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </Box>
+        <MangaSwiper
+          title="Popular"
+          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&order%5BfollowedCount%5D=desc"
+        ></MangaSwiper>
+
+        <MangaSwiper
+          title="Latest"
+          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&order%5BlatestUploadedChapter%5D=desc"
+        ></MangaSwiper>
       </Box>
     </Container>
   );
