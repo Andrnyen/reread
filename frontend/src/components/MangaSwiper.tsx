@@ -1,10 +1,11 @@
-import { Box, CircularProgress, Container, Typography } from "@mui/material";
-import useFetchMangas from "../hooks/fetchManga";
+import { Box, Typography } from "@mui/material";
+import useFetchMangas from "../hooks/fetchMangas";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import MangaCard from "./MangaCard";
 
 import "swiper/css";
+import MyCircularProgress from "./MyCircularProgress";
 
 interface MangaSwiperProp {
   title: string;
@@ -57,7 +58,7 @@ export default function MangaSwiper({ title, endpoint }: MangaSwiperProp) {
         }}
       >
         {loading ? (
-          <CircularProgress></CircularProgress>
+          <MyCircularProgress></MyCircularProgress>
         ) : (
           mangas.map((manga) => {
             const coverArt = manga.relationships.find(

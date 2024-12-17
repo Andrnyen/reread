@@ -21,7 +21,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/manga/:manga-id"
+          path="/manga/:mangaId"
           element={
             user ? <MangaDesc></MangaDesc> : <SignIn setUser={setUser}></SignIn>
           }

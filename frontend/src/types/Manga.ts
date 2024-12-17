@@ -5,6 +5,7 @@ export type Manga = {
   attributes: {
     title: Title;
     altTitles: Title[];
+    description: { en: string };
   };
   relationships: {
     attributes?: {
@@ -14,3 +15,15 @@ export type Manga = {
     id: string;
   }[];
 };
+
+export type Chapter = {
+  chapter: string;
+  id: string;
+};
+
+export type Volume = {
+  volume: string;
+  chapters: Record<string, Chapter>;
+};
+
+export type Volumes = Record<string, Volume>;
