@@ -1,5 +1,4 @@
 import { Box, CardMedia, Typography } from "@mui/material";
-import useFetchMangaDesc from "../hooks/fetchMangaVols";
 import { useParams } from "react-router-dom";
 import MyContainer from "../components/MyContainer";
 import useFetchManga from "../hooks/fetchManga";
@@ -7,6 +6,7 @@ import MangaDescription from "../components/MangaDescription";
 import MyCircularProgress from "../components/MyCircularProgress";
 import BackButton from "../components/BackButton";
 import MangaAccordion from "../components/MangaAccordion";
+import useFetchMangaVols from "../hooks/fetchMangaVols";
 
 export default function MangaDesc() {
   const { mangaId } = useParams();
@@ -15,7 +15,9 @@ export default function MangaDesc() {
     data: volumes,
     isLoading: volumesLoading,
     error: volumesError,
-  } = useFetchMangaDesc(`https://api.mangadex.org/manga/${mangaId}/aggregate`);
+  } = useFetchMangaVols(
+    `https://api.mangadex.org/manga/${mangaId}/aggregate?translatedLanguage%5B%5D=en`
+  );
 
   const {
     data: manga,
