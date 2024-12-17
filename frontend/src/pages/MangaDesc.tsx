@@ -1,20 +1,12 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  CardMedia,
-  List,
-  ListItem,
-  Typography,
-} from "@mui/material";
+import { Box, CardMedia, Typography } from "@mui/material";
 import useFetchMangaDesc from "../hooks/fetchMangaVols";
 import { useParams } from "react-router-dom";
 import MyContainer from "../components/MyContainer";
 import useFetchManga from "../hooks/fetchManga";
 import MangaDescription from "../components/MangaDescription";
 import MyCircularProgress from "../components/MyCircularProgress";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import BackButton from "../components/BackButton";
+import MangaAccordion from "../components/MangaAccordion";
 
 export default function MangaDesc() {
   const { mangaId } = useParams();
@@ -67,6 +59,17 @@ export default function MangaDesc() {
           p: { xs: 2, sm: 3, md: 3, lg: 3 },
         }}
       >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <BackButton />
+        </Box>
+
         <CardMedia
           component="img"
           alt={manga ? manga.attributes.title.en : ""}
@@ -98,30 +101,7 @@ export default function MangaDesc() {
           }
         ></MangaDescription>
 
-        {Object.keys(volumes).map((volKey) => {
-          return (
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                {`volume ${volumes[volKey].volume}`}
-              </AccordionSummary>
-              <AccordionDetails>
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    {`volume ${volumes[volKey].volume}`}
-                  </AccordionSummary>
-                </Accordion>
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
+        <MangaAccordion volumes={volumes}></MangaAccordion>
       </Box>
     </MyContainer>
   );
