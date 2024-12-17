@@ -3,7 +3,7 @@ import axios from "axios";
 import { MangaPages } from "../types/Manga";
 
 const useFetchMangaPages = (endpoint: string) => {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<MangaPages>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
