@@ -1,49 +1,10 @@
-import { AppBar, Box, Container, IconButton, Toolbar } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import SearchIcon from "@mui/icons-material/Search";
+import { Box } from "@mui/material";
 import MangaSwiper from "../components/MangaSwiper";
+import MyContainer from "../components/MyContainer";
 
-// https://api.mangadex.org/manga?limit=30&includes[]=cover_art&order%5BfollowedCount%5D=desc
 export default function Dashboard() {
   return (
-    <Container maxWidth={false} disableGutters>
-      <AppBar
-        position="static"
-        sx={{
-          backgroundColor: "#242424",
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="profile"
-          >
-            <AccountCircleIcon fontSize="inherit" />
-          </IconButton>
-
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="bookmark"
-          >
-            <BookmarkIcon fontSize="inherit" />
-          </IconButton>
-
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="search"
-          >
-            <SearchIcon fontSize="inherit" />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-
+    <MyContainer>
       <Box
         sx={{
           display: "flex",
@@ -63,6 +24,6 @@ export default function Dashboard() {
           endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating%5B%5D=safe&order%5BlatestUploadedChapter%5D=desc"
         ></MangaSwiper>
       </Box>
-    </Container>
+    </MyContainer>
   );
 }

@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Manga } from "../types/Manga";
 
-const useFetchManga = (endpoint: string) => {
-  const [data, setData] = useState<Manga>();
+const useFetchMangas = (endpoint: string) => {
+  const [data, setData] = useState<Manga[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchManga = () => {
+  const fetchMangas = () => {
     setIsLoading(true);
     axios
       .get(endpoint)
@@ -22,10 +22,10 @@ const useFetchManga = (endpoint: string) => {
   };
 
   useEffect(() => {
-    fetchManga();
+    fetchMangas();
   }, [endpoint]);
 
-  return { data, isLoading, error, refetch: fetchManga };
+  return { data, isLoading, error, refetch: fetchMangas };
 };
 
-export default useFetchManga;
+export default useFetchMangas;

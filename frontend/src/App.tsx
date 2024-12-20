@@ -6,6 +6,7 @@ import React from "react";
 import { User } from "firebase/auth";
 import SignUp from "./pages/sign-up/SignUp";
 import MangaDesc from "./pages/MangaDesc";
+import Read from "./pages/Read";
 
 function App() {
   const [user, setUser] = React.useState<User | null>(null);
@@ -21,10 +22,14 @@ function App() {
           }
         ></Route>
         <Route
-          path="/manga/:manga-id"
+          path="/manga/:mangaId"
           element={
             user ? <MangaDesc></MangaDesc> : <SignIn setUser={setUser}></SignIn>
           }
+        ></Route>
+        <Route
+          path="/volume/:volumeId/chapter/:chapterId"
+          element={user ? <Read></Read> : <SignIn setUser={setUser}></SignIn>}
         ></Route>
       </Routes>
     </Router>
