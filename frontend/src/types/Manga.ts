@@ -27,3 +27,8 @@ export type Volume = {
 };
 
 export type Volumes = Record<string, Volume>;
+
+export type MangaPages = {
+  hash: string;
+  data: string[];
+};

@@ -1,5 +1,6 @@
 import { Container } from "@mui/material";
 import MyAppBar from "./MyAppBar";
+import Footer from "./Footer";
 
 export default function MyContainer({
   children,
@@ -10,6 +11,7 @@ export default function MyContainer({
     <Container maxWidth={false} disableGutters>
       <MyAppBar></MyAppBar>
       {children}
+      <Footer></Footer>
     </Container>
   );
 }
