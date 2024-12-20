@@ -17,15 +17,23 @@ export default function MangaChapterViewer({ pages, hash }: MangaChapterProps) {
     >
       {pages.map((url, index) => (
         <SwiperSlide key={index}>
-          <img
-            src={`https://uploads.mangadex.org/data/${hash}/${url}`}
-            alt={`Page ${index + 1}`}
+          <div
             style={{
-              width: "100%",
-              objectFit: "cover", // Ensures the image fits without cropping
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               backgroundColor: "#000", // Adds a dark background
             }}
-          />
+          >
+            <img
+              src={`https://uploads.mangadex.org/data/${hash}/${url}`}
+              alt={`Page ${index + 1}`}
+              style={{
+                maxWidth: "100%",
+                objectFit: "contain", // Ensures the image fits without cropping
+              }}
+            />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
