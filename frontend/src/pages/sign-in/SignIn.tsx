@@ -95,10 +95,6 @@ export default function SignIn(props: {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
 
     try {
       const user = await signInWithEmailAndPassword(
@@ -106,12 +102,9 @@ export default function SignIn(props: {
         data.get("email") as string,
         data.get("password") as string
       );
-
-      console.log(user);
       navigate("/dashboard");
     } catch (error) {
       let msg = (error as Error).message;
-      console.log(msg);
       alert(msg);
     }
   };

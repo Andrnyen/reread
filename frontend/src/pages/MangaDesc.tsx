@@ -1,4 +1,4 @@
-import { Box, CardMedia, Typography } from "@mui/material";
+import { Box, CardMedia, IconButton, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import MyContainer from "../components/MyContainer";
 import useFetchManga from "../hooks/fetchManga";
@@ -7,9 +7,27 @@ import MyCircularProgress from "../components/MyCircularProgress";
 import BackButton from "../components/BackButton";
 import MangaAccordion from "../components/MangaAccordion";
 import useFetchMangaVols from "../hooks/fetchMangaVols";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import { getAuth } from "firebase/auth";
+import {
+  handleAddBookmarkManga,
+  handleRemoveBookmarkManga,
+  isMangaBookmarked,
+} from "../services/FirestoreServices";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { useEffect, useState } from "react";
 
 export default function MangaDesc() {
   const { mangaId } = useParams();
+  const currUser = getAuth().currentUser;
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function checkIfBookmarked() {
+      setIsBookmarked(await isMangaBookmarked(currUser!.uid, mangaId!));
+    }
+    checkIfBookmarked();
+  }, []);
 
   const {
     data: volumes,
@@ -35,9 +53,6 @@ export default function MangaDesc() {
     );
   }
 
-  console.log(manga);
-  console.log(volumes);
-
   const coverArt = manga
     ? manga.relationships.find((e) => e.type === "cover_art")
     : "";
@@ -47,6 +62,15 @@ export default function MangaDesc() {
       ? coverArt.attributes!.fileName
       : ""
     : "";
+
+  function bookMarkManga() {
+    if (currUser && mangaId) {
+      isBookmarked
+        ? handleRemoveBookmarkManga(currUser?.uid, mangaId)
+        : handleAddBookmarkManga(currUser?.uid, mangaId);
+      setIsBookmarked(!isBookmarked);
+    }
+  }
 
   return volumesLoading || mangaLoading ? (
     <MyCircularProgress></MyCircularProgress>
@@ -64,12 +88,19 @@ export default function MangaDesc() {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "flex-start",
+            justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
           }}
         >
           <BackButton />
+          <IconButton onClick={bookMarkManga}>
+            {isBookmarked ? (
+              <BookmarkIcon sx={{ color: "white" }}></BookmarkIcon>
+            ) : (
+              <BookmarkBorderIcon sx={{ color: "white" }}></BookmarkBorderIcon>
+            )}
+          </IconButton>
         </Box>
 
         <CardMedia
