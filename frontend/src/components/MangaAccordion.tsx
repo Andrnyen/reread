@@ -19,7 +19,7 @@ interface MangaAccordionProps {
 export default function MangaAccordion({ volumes }: MangaAccordionProps) {
   return (
     <Container maxWidth={false} disableGutters>
-      {Object.keys(volumes).map((volKey) => {
+      {Object.keys(volumes).map((volKey, index) => {
         return (
           <Accordion
             key={volKey}
@@ -31,7 +31,7 @@ export default function MangaAccordion({ volumes }: MangaAccordionProps) {
               id="panel1-header"
             >
               <Typography sx={{ color: "white" }}>
-                {`Volume ${volumes[volKey].volume}`}
+                {`Volume ${index + 1}`}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
