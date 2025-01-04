@@ -35,7 +35,7 @@ export async function handleRemoveBookmarkManga(uid: string, mangaId: string) {
     });
     console.log("removed");
   } catch (error) {
-    console.error(`Could not add manga ${mangaId}. Error: ${error}`);
+    console.error(`Could not remove manga ${mangaId}. Error: ${error}`);
     throw new Error(`Could not remove assessor ${mangaId}. Error: ${error}`);
   }
 }
@@ -48,5 +48,16 @@ export async function isMangaBookmarked(uid: string, mangaId: string) {
   } catch (error) {
     console.error(`Could not add manga ${mangaId}. Error: ${error}`);
     throw new Error(`Could not remove assessor ${mangaId}. Error: ${error}`);
+  }
+}
+
+export async function fetchBookmarked(uid: string): Promise<string[]> {
+  try {
+    const userFormRef = doc(db, "Users", uid);
+    const userDoc = (await getDoc(userFormRef)).data();
+    return userDoc ? userDoc.bookmarked : [];
+  } catch (error) {
+    console.error(`Could not fetch bookmarked ${uid}. Error: ${error}`);
+    throw new Error(`Could not fetch bookmarked ${uid}. Error: ${error}`);
   }
 }
