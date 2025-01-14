@@ -2,6 +2,7 @@ import { AppBar, IconButton, Toolbar } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
 
 export default function MyAppBar() {
   return (
@@ -26,6 +27,8 @@ export default function MyAppBar() {
           edge="start"
           color="inherit"
           aria-label="bookmark"
+          component={Link} // React Router Link for navigation
+          to={`/bookmarked`}
         >
           <BookmarkIcon fontSize="inherit" />
         </IconButton>

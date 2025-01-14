@@ -7,6 +7,7 @@ import { User } from "firebase/auth";
 import SignUp from "./pages/sign-up/SignUp";
 import MangaDesc from "./pages/MangaDesc";
 import Read from "./pages/Read";
+import Bookmarked from "./pages/Bookmarked";
 
 function App() {
   const [user, setUser] = React.useState<User | null>(null);
@@ -30,6 +31,16 @@ function App() {
         <Route
           path="/volume/:volumeId/chapter/:chapterId"
           element={user ? <Read></Read> : <SignIn setUser={setUser}></SignIn>}
+        ></Route>
+        <Route
+          path="/bookmarked"
+          element={
+            user ? (
+              <Bookmarked></Bookmarked>
+            ) : (
+              <SignIn setUser={setUser}></SignIn>
+            )
+          }
         ></Route>
       </Routes>
     </Router>
