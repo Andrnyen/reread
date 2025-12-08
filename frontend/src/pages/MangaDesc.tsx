@@ -35,9 +35,6 @@ export default function MangaDesc() {
     );
   }
 
-  console.log(manga);
-  console.log(volumes);
-
   const coverArt = manga
     ? manga.relationships.find((e) => e.type === "cover_art")
     : "";
@@ -47,6 +44,8 @@ export default function MangaDesc() {
       ? coverArt.attributes!.fileName
       : ""
     : "";
+
+  const title = manga?.attributes?.title?.en ?? "Title Not Found";
 
   return volumesLoading || mangaLoading ? (
     <MyCircularProgress></MyCircularProgress>
@@ -90,11 +89,7 @@ export default function MangaDesc() {
         />
 
         <Typography variant="h4" sx={{ p: 1 }}>
-          {manga
-            ? manga.attributes.title.en.length > 50
-              ? manga.attributes.title.en.slice(0, 50)
-              : manga.attributes.title.en
-            : "Title Not Found"}
+          {title.length > 50 ? title.slice(0, 50) : title}
         </Typography>
 
         <MangaDescription
