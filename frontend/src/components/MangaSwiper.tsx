@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import MangaCard from "./MangaCard";
 
-import "swiper/css";
 import MyCircularProgress from "./MyCircularProgress";
 
 interface MangaSwiperProp {

@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import IconButton, { IconButtonOwnProps } from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useColorScheme } from "@mui/material/styles";
+import { useColorScheme, type CssVarsTheme } from "@mui/material/styles";
 
 export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
   const { mode, systemMode, setMode } = useColorScheme();
@@ -21,22 +21,26 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
     setMode(targetMode);
     handleClose();
   };
+
   if (!mode) {
     return (
       <Box
         data-screenshot="toggle-mode"
-        sx={(theme) => ({
+        sx={(theme: CssVarsTheme) => ({
           verticalAlign: "bottom",
           display: "inline-flex",
           width: "2.25rem",
           height: "2.25rem",
-          borderRadius: (theme.vars || theme).shape.borderRadius,
+          borderRadius: theme.vars.shape.borderRadius,
           border: "1px solid",
-          borderColor: (theme.vars || theme).palette.divider,
+          borderColor: theme.vars.palette.divider,
+          alignItems: "center",
+          justifyContent: "center",
         })}
       />
     );
   }
+
   const resolvedMode = (systemMode || mode) as "light" | "dark";
   const icon = {
     light: <LightModeIcon />,

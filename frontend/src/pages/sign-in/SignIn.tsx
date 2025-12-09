@@ -17,11 +17,7 @@ import ForgotPassword from "./ForgotPassword";
 import { GoogleIcon, FacebookIcon } from "./CustomIcons";
 import AppTheme from "../shared-theme/AppTheme";
 import ColorModeSelect from "../shared-theme/ColorModeSelect";
-import {
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  User,
-} from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -93,8 +89,6 @@ export default function SignIn(props: {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
 
     try {
       navigate("/dashboard");
