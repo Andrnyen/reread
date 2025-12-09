@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       (r: any) => r.type === "scanlation_group"
     );
 
-    const name = groupRel?.data?.attributes?.name ?? null;
+    const name = groupRel?.attributes?.name ?? null;
 
     return res.status(200).json({ name });
   } catch (err) {
