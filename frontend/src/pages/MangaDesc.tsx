@@ -15,13 +15,13 @@ export default function MangaDesc() {
     data: volumes,
     isLoading: volumesLoading,
     error: volumesError,
-  } = useFetchMangaVols(mangaId);
+  } = useFetchMangaVols(mangaId!);
 
   const {
     data: manga,
     isLoading: mangaLoading,
     error: mangaError,
-  } = useFetchManga(mangaId);
+  } = useFetchManga(mangaId!);
 
   if (volumesError || mangaError) {
     return (
@@ -32,7 +32,7 @@ export default function MangaDesc() {
   }
 
   const coverArt = manga
-    ? manga.relationships.find((e) => e.type === "cover_art")
+    ? manga.relationships.find((e: any) => e.type === "cover_art")
     : "";
 
   const coverArtFileName: string = coverArt

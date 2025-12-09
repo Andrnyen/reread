@@ -12,12 +12,12 @@ interface MangaSwiperProp {
 }
 
 export default function MangaSwiper({ title, endpoint }: MangaSwiperProp) {
-  const { data: mangas, loading: loading, error: e } = useFetchMangas(endpoint);
+  const { data: mangas, loading: loading, error } = useFetchMangas(endpoint);
 
-  if (e) {
+  if (error) {
     return (
       <Typography variant="h6" color="error">
-        Error: {e}
+        Error: {error}
       </Typography>
     );
   }
@@ -57,7 +57,7 @@ export default function MangaSwiper({ title, endpoint }: MangaSwiperProp) {
         ) : (
           mangas.map((manga) => {
             const coverArt = manga.relationships.find(
-              (e) => e.type === "cover_art"
+              (e: any) => e.type === "cover_art"
             );
             const coverArtFileName: string = coverArt
               ? coverArt.attributes?.fileName

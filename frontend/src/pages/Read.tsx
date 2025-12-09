@@ -14,7 +14,7 @@ export default function Read() {
     data: mangaPages,
     isLoading: loading,
     error: e,
-  } = useFetchMangaPages(chapterId);
+  } = useFetchMangaPages(chapterId!);
 
   const { groupName: scanlationGroup, error: scanlationError } =
     getScanlationGroup(chapterId);

@@ -4,7 +4,7 @@ import axios from "axios";
 const useFetchManga = (mangaId: string) => {
   const endpoint = `/api/manga?mangaId=${mangaId}`;
 
-  const [data, setData] = useState<Manga>();
+  const [data, setData] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
