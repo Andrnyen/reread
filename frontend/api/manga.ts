@@ -1,32 +1,21 @@
-export const config = { runtime: "edge" };
+import { proxyFetch } from "./utils";
 
-export default async function handler(req: Request): Promise<Response> {
+export default async function handler(req, res) {
   try {
-    const { searchParams } = new URL(req.url);
-    const mangaId = searchParams.get("mangaId");
-
+    const mangaId = req.query.mangaId;
     if (!mangaId) {
-      return new Response(JSON.stringify({ error: "Missing mangaId" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return res.status(400).json({ error: "Missing mangaId" });
     }
 
     const url =
       `https://api.mangadex.org/manga/${mangaId}` +
       `?includes[]=cover_art&includes[]=artist&includes[]=author`;
 
-    const apiRes = await fetch(url);
-    const data = await apiRes.json();
+    const data = await proxyFetch(url);
 
-    return new Response(JSON.stringify(data.data), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return res.status(200).json(data.data);
   } catch (err) {
-    console.error("API/manga error:", err);
-    return new Response(JSON.stringify({ error: "Proxy failed" }), {
-      status: 500,
-    });
+    console.error("API /manga error:", err);
+    return res.status(500).json({ error: "Proxy failed" });
   }
 }

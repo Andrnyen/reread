@@ -1,45 +1,37 @@
-export const config = { runtime: "edge" };
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { proxyFetch } from "./utils";
 
-export default async function handler(req: Request): Promise<Response> {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const { searchParams } = new URL(req.url);
-    const chapterId = searchParams.get("chapterId");
+    const chapterId = req.query.chapterId;
 
     if (!chapterId) {
-      return new Response(JSON.stringify({ error: "chapterId required" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return res.status(400).json({ error: "chapterId is required" });
     }
 
     const url = `https://api.mangadex.org/at-home/server/${chapterId}`;
 
-    const result = await fetch(url);
-    const data = await result.json();
+    const { error, data } = await proxyFetch(url);
 
-    if (!data?.chapter) {
-      return new Response(JSON.stringify({ error: "Invalid chapter data" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (error) {
+      console.error("At-home fetch failed:", error);
+      return res.status(500).json({ error: "Failed to fetch pages" });
     }
 
-    return new Response(
-      JSON.stringify({
-        hash: data.chapter.hash,
-        pages: data.chapter.data,
-        pagesSaver: data.chapter.dataSaver,
-        baseUrl: data.baseUrl,
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-  } catch (err) {
-    console.error("API/pages error:", err);
-    return new Response(JSON.stringify({ error: "Unexpected server error" }), {
-      status: 500,
+    if (!data?.chapter) {
+      console.error("Invalid at-home response:", data);
+      return res.status(500).json({ error: "Invalid chapter data" });
+    }
+
+    const hash = data.chapter.hash;
+    const pages = data.chapter.data;
+
+    return res.status(200).json({
+      hash,
+      pages,
     });
+  } catch (err) {
+    console.error("API /pages error:", err);
+    return res.status(500).json({ error: "Unexpected server error" });
   }
 }

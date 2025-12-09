@@ -1,38 +1,36 @@
-export const config = { runtime: "edge" };
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import axios from "axios";
 
-export default async function handler(req: Request): Promise<Response> {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const { searchParams } = new URL(req.url);
-    const endpoint = searchParams.get("endpoint");
+    const endpoint = req.query.endpoint;
 
-    if (!endpoint) {
-      return new Response(JSON.stringify({ error: "Missing endpoint" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (!endpoint || typeof endpoint !== "string") {
+      return res
+        .status(400)
+        .json({ error: "Missing or invalid endpoint parameter." });
     }
 
-    const response = await fetch(endpoint, {
-      headers: { "User-Agent": "Mozilla/5.0 MangaReader Proxy" },
+    const response = await axios.get(endpoint, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 MangaReader Proxy",
+      },
     });
-
-    const json = await response.json();
 
     const normalized = {
-      data: json?.data?.data ?? [],
-      total: json?.data?.total ?? null,
-      limit: json?.data?.limit ?? null,
-      offset: json?.data?.offset ?? null,
+      data: response.data?.data ?? [],
+      total: response.data?.total ?? null,
+      limit: response.data?.limit ?? null,
+      offset: response.data?.offset ?? null,
     };
 
-    return new Response(JSON.stringify(normalized), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return res.status(200).json(normalized);
   } catch (err: any) {
-    console.error("Proxy error (manga-list):", err);
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
+    console.error("Proxy error (manga-list):", err.message);
+
+    return res.status(500).json({
+      error: "Failed to fetch MangaDex data",
+      details: err.message,
     });
   }
 }
