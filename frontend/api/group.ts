@@ -1,24 +1,34 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { proxyFetch } from "./utils";
+export const config = { runtime: "edge" };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: Request): Promise<Response> {
   try {
-    const chapterId = req.query.chapterId;
+    const { searchParams } = new URL(req.url);
+    const chapterId = searchParams.get("chapterId");
 
-    if (!chapterId) return res.status(400).json({ name: null });
+    if (!chapterId) {
+      return new Response(JSON.stringify({ name: null }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
 
-    const chapterUrl = `https://api.mangadex.org/chapter/${chapterId}?includes%5B%5D=scanlation_group`;
-    const chapter = await proxyFetch(chapterUrl);
+    // Fetch chapter data including scanlation group
+    const url = `https://api.mangadex.org/chapter/${chapterId}?includes[]=scanlation_group`;
+    const chapterRes = await fetch(url);
+    const chapter = await chapterRes.json();
 
-    const groupRel = chapter?.data?.data?.relationships?.find(
+    const groupRel = chapter.data?.relationships?.find(
       (r: any) => r.type === "scanlation_group"
     );
 
     const name = groupRel?.attributes?.name ?? null;
 
-    return res.status(200).json({ name });
+    return new Response(JSON.stringify({ name }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err) {
-    console.error("API /group error:", err);
-    return res.status(500).json({ name: null });
+    console.error("API/group error:", err);
+    return new Response(JSON.stringify({ name: null }), { status: 500 });
   }
 }

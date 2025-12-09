@@ -1,37 +1,45 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { proxyFetch } from "./utils";
+export const config = { runtime: "edge" };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: Request): Promise<Response> {
   try {
-    const chapterId = req.query.chapterId;
+    const { searchParams } = new URL(req.url);
+    const chapterId = searchParams.get("chapterId");
 
     if (!chapterId) {
-      return res.status(400).json({ error: "chapterId is required" });
+      return new Response(JSON.stringify({ error: "chapterId required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     const url = `https://api.mangadex.org/at-home/server/${chapterId}`;
 
-    const { error, data } = await proxyFetch(url);
-
-    if (error) {
-      console.error("At-home fetch failed:", error);
-      return res.status(500).json({ error: "Failed to fetch pages" });
-    }
+    const result = await fetch(url);
+    const data = await result.json();
 
     if (!data?.chapter) {
-      console.error("Invalid at-home response:", data);
-      return res.status(500).json({ error: "Invalid chapter data" });
+      return new Response(JSON.stringify({ error: "Invalid chapter data" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    const hash = data.chapter.hash;
-    const pages = data.chapter.data;
-
-    return res.status(200).json({
-      hash,
-      pages,
-    });
+    return new Response(
+      JSON.stringify({
+        hash: data.chapter.hash,
+        pages: data.chapter.data,
+        pagesSaver: data.chapter.dataSaver,
+        baseUrl: data.baseUrl,
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (err) {
-    console.error("API /pages error:", err);
-    return res.status(500).json({ error: "Unexpected server error" });
+    console.error("API/pages error:", err);
+    return new Response(JSON.stringify({ error: "Unexpected server error" }), {
+      status: 500,
+    });
   }
 }
