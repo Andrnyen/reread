@@ -20,6 +20,7 @@ import ColorModeSelect from "../shared-theme/ColorModeSelect";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -83,19 +84,18 @@ export default function SignIn(props: {
     setOpen(false);
   };
 
-  onAuthStateChanged(auth, (currentUser) => {
-    props.setUser(currentUser);
-  });
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const email = (document.getElementById("email") as HTMLInputElement).value;
+    const password = (document.getElementById("password") as HTMLInputElement)
+      .value;
+
     try {
+      await signInWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
     } catch (error) {
-      let msg = (error as Error).message;
-      console.log(msg);
-      alert(msg);
+      alert((error as Error).message);
     }
   };
 
