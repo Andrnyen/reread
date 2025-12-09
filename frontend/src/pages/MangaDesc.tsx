@@ -41,7 +41,8 @@ export default function MangaDesc() {
       : ""
     : "";
 
-  const title = manga?.attributes?.title?.en ?? "Title Not Found";
+  const titleObj = manga?.attributes?.title ?? {};
+  const title = titleObj.en ?? Object.values(titleObj)[0] ?? "Title Not Found";
 
   return volumesLoading || mangaLoading ? (
     <MyCircularProgress></MyCircularProgress>

@@ -13,6 +13,7 @@ const useFetchManga = (mangaId: string) => {
     axios
       .get(endpoint)
       .then((response) => {
+        console.log(response.data);
         setData(response.data.data);
         setIsLoading(false);
       })
