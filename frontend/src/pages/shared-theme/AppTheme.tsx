@@ -1,8 +1,5 @@
 import * as React from "react";
-import {
-  CssVarsProvider,
-  experimental_extendTheme as createTheme,
-} from "@mui/material/styles";
+import { CssVarsProvider, extendTheme } from "@mui/material/styles";
 import type { ThemeOptions } from "@mui/material/styles";
 import { inputsCustomizations } from "./customizations/inputs";
 import { dataDisplayCustomizations } from "./customizations/dataDisplay";
@@ -13,46 +10,45 @@ import { colorSchemes, typography, shadows, shape } from "./themePrimitives";
 
 interface AppThemeProps {
   children: React.ReactNode;
-  /**
-   * This is for the docs site. You can ignore it or remove it.
-   */
   disableCustomTheme?: boolean;
   themeComponents?: ThemeOptions["components"];
 }
 
 export default function AppTheme({
   children,
-  disableCustomTheme,
-  themeComponents,
+  disableCustomTheme = false,
+  themeComponents = {},
 }: AppThemeProps) {
   const theme = React.useMemo(() => {
-    return disableCustomTheme
-      ? {}
-      : createTheme({
-          // For more details about CSS variables configuration, see https://mui.com/material-ui/customization/css-theme-variables/configuration/
-          cssVariables: {
-            colorSchemeSelector: "data-mui-color-scheme",
-            cssVarPrefix: "template",
-          },
-          colorSchemes, // Recently added in v6 for building light & dark mode app, see https://mui.com/material-ui/customization/palette/#color-schemes
-          typography,
-          shadows,
-          shape,
-          components: {
-            ...inputsCustomizations,
-            ...dataDisplayCustomizations,
-            ...feedbackCustomizations,
-            ...navigationCustomizations,
-            ...surfacesCustomizations,
-            ...themeComponents,
-          },
-        });
+    if (disableCustomTheme) {
+      return extendTheme();
+    }
+
+    return extendTheme({
+      colorSchemes: {
+        light: {
+          palette: colorSchemes.light.palette,
+        },
+        dark: {
+          palette: colorSchemes.dark.palette,
+        },
+      },
+      typography,
+      shadows,
+      shape,
+      components: {
+        ...inputsCustomizations,
+        ...dataDisplayCustomizations,
+        ...feedbackCustomizations,
+        ...navigationCustomizations,
+        ...surfacesCustomizations,
+        ...themeComponents,
+      },
+    });
   }, [disableCustomTheme, themeComponents]);
-  if (disableCustomTheme) {
-    return <React.Fragment>{children}</React.Fragment>;
-  }
+
   return (
-    <CssVarsProvider theme={theme} disableTransitionOnChange>
+    <CssVarsProvider theme={theme} defaultMode="system">
       {children}
     </CssVarsProvider>
   );

@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import MangaCard from "./MangaCard";
 
-import "swiper/css";
 import MyCircularProgress from "./MyCircularProgress";
 
 interface MangaSwiperProp {
@@ -13,16 +12,12 @@ interface MangaSwiperProp {
 }
 
 export default function MangaSwiper({ title, endpoint }: MangaSwiperProp) {
-  const {
-    data: mangas,
-    isLoading: loading,
-    error: e,
-  } = useFetchMangas(endpoint);
+  const { data: mangas, loading: loading, error } = useFetchMangas(endpoint);
 
-  if (e) {
+  if (error) {
     return (
       <Typography variant="h6" color="error">
-        Error: {e}
+        Error: {error}
       </Typography>
     );
   }
@@ -62,7 +57,7 @@ export default function MangaSwiper({ title, endpoint }: MangaSwiperProp) {
         ) : (
           mangas.map((manga) => {
             const coverArt = manga.relationships.find(
-              (e) => e.type === "cover_art"
+              (e: any) => e.type === "cover_art"
             );
             const coverArtFileName: string = coverArt
               ? coverArt.attributes?.fileName

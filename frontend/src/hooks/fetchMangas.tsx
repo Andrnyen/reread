@@ -1,31 +1,40 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Manga } from "../types/Manga";
 
-const useFetchMangas = (endpoint: string) => {
-  const [data, setData] = useState<Manga[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+export default function useFetchMangas(endpoint: string) {
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchMangas = () => {
-    setIsLoading(true);
-    axios
-      .get(endpoint)
-      .then((response) => {
-        setData(response.data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setIsLoading(false);
-      });
-  };
-
   useEffect(() => {
-    fetchMangas();
+    let isMounted = true;
+
+    async function fetchData() {
+      try {
+        setLoading(true);
+
+        const res = await axios.get(
+          `/api/manga-list?endpoint=${encodeURIComponent(endpoint)}`
+        );
+
+        if (!isMounted) return;
+
+        // backend should return { data: [...] }
+        setData(res.data?.data ?? []);
+      } catch (err: any) {
+        if (!isMounted) return;
+        setError(err.message || "Failed to load MangaDex data");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [endpoint]);
 
-  return { data, isLoading, error, refetch: fetchMangas };
-};
-
-export default useFetchMangas;
+  return { data, loading, error };
+}
