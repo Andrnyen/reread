@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard } from "swiper/modules";
+import "swiper/css";
 
 interface MangaChapterProps {
   pages: string[];
