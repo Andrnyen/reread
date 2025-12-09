@@ -15,17 +15,13 @@ export default function MangaDesc() {
     data: volumes,
     isLoading: volumesLoading,
     error: volumesError,
-  } = useFetchMangaVols(
-    `https://api.mangadex.org/manga/${mangaId}/aggregate?translatedLanguage%5B%5D=en`
-  );
+  } = useFetchMangaVols(mangaId);
 
   const {
     data: manga,
     isLoading: mangaLoading,
     error: mangaError,
-  } = useFetchManga(
-    `https://api.mangadex.org/manga/${mangaId}?includes%5B%5D=cover_art`
-  );
+  } = useFetchManga(mangaId);
 
   if (volumesError || mangaError) {
     return (

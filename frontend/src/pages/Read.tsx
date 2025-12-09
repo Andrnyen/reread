@@ -14,13 +14,10 @@ export default function Read() {
     data: mangaPages,
     isLoading: loading,
     error: e,
-  } = useFetchMangaPages(
-    `https://api.mangadex.org/at-home/server/${chapterId}?includes%5B%5D=scanlation_group`
-  );
+  } = useFetchMangaPages(chapterId);
 
-  const { group: scanlationGroup, error: scanlationError } = getScanlationGroup(
-    `https://api.mangadex.org/chapter/${chapterId}?includes%5B%5D=scanlation_group`
-  );
+  const { groupName: scanlationGroup, error: scanlationError } =
+    getScanlationGroup(chapterId);
 
   if (e || scanlationError) {
     return (
@@ -57,16 +54,10 @@ export default function Read() {
 
       <MangaChapterViewer
         hash={mangaPages ? mangaPages.hash : ""}
-        pages={mangaPages ? mangaPages.data : []}
+        pages={mangaPages ? mangaPages.pages : []}
       ></MangaChapterViewer>
 
-      <p>
-        Scanlation by{" "}
-        {
-          scanlationGroup?.find((e) => e.type === "scanlation_group")
-            ?.attributes.name
-        }
-      </p>
+      <p>Scanlation by {scanlationGroup ?? "Unknown"}</p>
     </MyContainer>
   );
 }

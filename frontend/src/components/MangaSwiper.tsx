@@ -12,11 +12,7 @@ interface MangaSwiperProp {
 }
 
 export default function MangaSwiper({ title, endpoint }: MangaSwiperProp) {
-  const {
-    data: mangas,
-    isLoading: loading,
-    error: e,
-  } = useFetchMangas(endpoint);
+  const { data: mangas, loading: loading, error: e } = useFetchMangas(endpoint);
 
   if (e) {
     return (
