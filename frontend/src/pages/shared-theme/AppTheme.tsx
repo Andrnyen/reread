@@ -1,5 +1,8 @@
 import * as React from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  CssVarsProvider,
+  experimental_extendTheme as createTheme,
+} from "@mui/material/styles";
 import type { ThemeOptions } from "@mui/material/styles";
 import { inputsCustomizations } from "./customizations/inputs";
 import { dataDisplayCustomizations } from "./customizations/dataDisplay";
@@ -49,8 +52,8 @@ export default function AppTheme({
     return <React.Fragment>{children}</React.Fragment>;
   }
   return (
-    <ThemeProvider theme={theme} disableTransitionOnChange>
+    <CssVarsProvider theme={theme} disableTransitionOnChange>
       {children}
-    </ThemeProvider>
+    </CssVarsProvider>
   );
 }
