@@ -1,12 +1,8 @@
-import {
-  experimental_extendTheme as Theme,
-  alpha,
-  Components,
-} from "@mui/material/styles";
+import { CssVarsTheme, alpha, Components } from "@mui/material/styles";
 import { gray, orange } from "../themePrimitives";
 
 /* eslint-disable import/prefer-default-export */
-export const feedbackCustomizations: Components<Theme> = {
+export const feedbackCustomizations: Components<CssVarsTheme> = {
   MuiAlert: {
     styleOverrides: {
       root: ({ theme }) => ({
