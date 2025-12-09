@@ -97,12 +97,6 @@ export default function SignIn(props: {
     const data = new FormData(event.currentTarget);
 
     try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        data.get("email") as string,
-        data.get("password") as string
-      );
-
       navigate("/dashboard");
     } catch (error) {
       let msg = (error as Error).message;

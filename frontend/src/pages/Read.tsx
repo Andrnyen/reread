@@ -8,7 +8,7 @@ import MangaChapterViewer from "../components/MangaChapterViewer";
 import getScanlationGroup from "../hooks/getScanlationGroup";
 
 export default function Read() {
-  const { volumeId, chapterId } = useParams();
+  const { chapterId } = useParams();
 
   const {
     data: mangaPages,

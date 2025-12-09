@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   CssVarsProvider,
-  experimental_extendTheme as createTheme,
+  extendTheme as createTheme,
 } from "@mui/material/styles";
 import type { ThemeOptions } from "@mui/material/styles";
 import { inputsCustomizations } from "./customizations/inputs";
