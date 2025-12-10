@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { mdxProxy } from "../utils/mdxProxy";
+// import { mdxProxy } from "../utils/mdxProxy";
 
 const getScanlationGroup = (chapterId?: string) => {
   const [groupName, setGroupName] = useState<string | null>(null);
@@ -10,7 +10,7 @@ const getScanlationGroup = (chapterId?: string) => {
     if (!chapterId) return;
 
     axios
-      .get(mdxProxy(url))
+      .get(url)
       .then((res) => {
         const groupRel = res?.data?.data?.relationships?.find(
           (r: any) => r.type === "scanlation_group"

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { mdxProxy } from "../utils/mdxProxy";
+// import { mdxProxy } from "../utils/mdxProxy";
 import { MangaPages } from "../types/Manga";
 
 const useFetchMangaPages = (chapterId: string) => {
@@ -14,7 +14,7 @@ const useFetchMangaPages = (chapterId: string) => {
     setIsLoading(true);
 
     axios
-      .get(mdxProxy(url))
+      .get(url)
       .then((response) => {
         const baseUrl = response.data.baseUrl;
         const hash = response.data.chapter.hash;
