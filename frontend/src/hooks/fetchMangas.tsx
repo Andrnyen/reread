@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { mdxProxy } from "../utils/mdxProxy";
+//import { mdxProxy } from "../utils/mdxProxy";
 
 export default function useFetchMangas(endpoint: string) {
   const [data, setData] = useState<any[]>([]);
