@@ -36,6 +36,26 @@ app.get("/proxy", async (req, res) => {
   }
 });
 
+app.get("/popular", async (req, res) => {
+  const url =
+    "https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating[]=safe&order[followedCount]=desc";
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  res.json(data);
+});
+
+app.get("/latest", async (req, res) => {
+  const url =
+    "https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating[]=safe&order[latestUploadedChapter]=desc";
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  res.json(data);
+});
+
 // Health check
 app.get("/", (req, res) => res.send("Reread Proxy Running"));
 

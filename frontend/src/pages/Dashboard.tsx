@@ -14,15 +14,9 @@ export default function Dashboard() {
           p: { xs: 2, sm: 3, md: 3, ld: 2 },
         }}
       >
-        <MangaSwiper
-          title="Popular"
-          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating%5B%5D=safe&order%5BfollowedCount%5D=desc"
-        ></MangaSwiper>
+        <MangaSwiper title="Popular" endpoint="/popular"></MangaSwiper>
 
-        <MangaSwiper
-          title="Latest"
-          endpoint="https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating%5B%5D=safe&order%5BlatestUploadedChapter%5D=desc"
-        ></MangaSwiper>
+        <MangaSwiper title="Latest" endpoint="/latest"></MangaSwiper>
       </Box>
     </MyContainer>
   );
