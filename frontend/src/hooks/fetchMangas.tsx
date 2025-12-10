@@ -13,9 +13,7 @@ export default function useFetchMangas(endpoint: string) {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_BACKEND_URL
-          }/manga-list?endpoint=${encodeURIComponent(endpoint)}`
+          `${import.meta.env.VITE_BACKEND_URL}/${endpoint}`
         );
         if (isMounted) setData(res.data.data ?? []);
       } catch (err: any) {
