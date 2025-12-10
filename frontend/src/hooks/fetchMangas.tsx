@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function useFetchMangas(endpoint: string) {
+  const url = `/api/manga-list?endpoint=${endpoint}`;
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,9 +13,7 @@ export default function useFetchMangas(endpoint: string) {
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/${endpoint}`
-        );
+        const res = await axios.get(url);
         if (isMounted) setData(res.data.data ?? []);
       } catch (err: any) {
         if (isMounted) setError(err.message);
