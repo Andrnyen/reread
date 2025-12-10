@@ -85,8 +85,7 @@ Then open the app in your browser: http://localhost:5173/
 
 ### 4. Run locally without Docker (optional)
 ```bash
-npm install
-npm run dev
+vercel dev
 ```
 Then open the app in your browser: http://localhost:5173/
 
