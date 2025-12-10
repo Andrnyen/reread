@@ -29,6 +29,7 @@ export type Volume = {
 export type Volumes = Record<string, Volume>;
 
 export type MangaPages = {
+  baseUrl: string;
   hash: string;
-  data: string[];
+  pages: string[];
 };

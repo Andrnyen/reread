@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { mdxProxy } from "../utils/mdxProxy";
 
 const useFetchMangaVols = (mangaId: string) => {
-  const endpoint = `/api/volumes?mangaId=${mangaId}`;
+  const url = `https://api.mangadex.org/manga/${mangaId}/aggregate?translatedLanguage[]=en`;
 
   const [data, setData] = useState<any>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -11,7 +12,7 @@ const useFetchMangaVols = (mangaId: string) => {
   const fetchMangaVols = () => {
     setIsLoading(true);
     axios
-      .get(endpoint)
+      .get(mdxProxy(url))
       .then((response) => {
         setData(response.data.volumes);
         setIsLoading(false);

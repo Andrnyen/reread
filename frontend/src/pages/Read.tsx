@@ -53,6 +53,7 @@ export default function Read() {
       </Box>
 
       <MangaChapterViewer
+        baseUrl={mangaPages ? mangaPages.baseUrl : ""}
         hash={mangaPages ? mangaPages.hash : ""}
         pages={mangaPages ? mangaPages.pages : []}
       ></MangaChapterViewer>

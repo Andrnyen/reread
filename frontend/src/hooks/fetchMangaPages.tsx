@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-interface MangaPages {
-  pages: string[];
-  saverPages: string[];
-  hash: string;
-  baseUrl: string;
-}
+import { mdxProxy } from "../utils/mdxProxy";
+import { MangaPages } from "../types/Manga";
 
 const useFetchMangaPages = (chapterId: string) => {
-  const endpoint = `/api/pages?chapterId=${chapterId}`;
+  const url = `https://api.mangadex.org/at-home/server/${chapterId}`;
 
   const [data, setData] = useState<MangaPages | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,9 +14,17 @@ const useFetchMangaPages = (chapterId: string) => {
     setIsLoading(true);
 
     axios
-      .get(endpoint)
+      .get(mdxProxy(url))
       .then((response) => {
-        setData(response.data);
+        const baseUrl = response.data.baseUrl;
+        const hash = response.data.chapter.hash;
+        const pages = response.data.chapter.data;
+
+        setData({
+          baseUrl: baseUrl,
+          hash: hash,
+          pages: pages,
+        });
         setIsLoading(false);
       })
       .catch((err) => {

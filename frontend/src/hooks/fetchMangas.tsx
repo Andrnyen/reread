@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { mdxProxy } from "../utils/mdxProxy";
 
 export default function useFetchMangas(endpoint: string) {
   const [data, setData] = useState<any[]>([]);
@@ -10,27 +11,18 @@ export default function useFetchMangas(endpoint: string) {
     let isMounted = true;
 
     async function fetchData() {
+      setLoading(true);
       try {
-        setLoading(true);
-
-        const res = await axios.get(
-          `/api/manga-list?endpoint=${encodeURIComponent(endpoint)}`
-        );
-
-        if (!isMounted) return;
-
-        // backend should return { data: [...] }
-        setData(res.data?.data ?? []);
+        const res = await axios.get(mdxProxy(endpoint));
+        if (isMounted) setData(res.data.data ?? []);
       } catch (err: any) {
-        if (!isMounted) return;
-        setError(err.message || "Failed to load MangaDex data");
+        if (isMounted) setError(err.message);
       } finally {
         if (isMounted) setLoading(false);
       }
     }
 
     fetchData();
-
     return () => {
       isMounted = false;
     };
