@@ -75,19 +75,11 @@ const firebaseConfig = {
   appId: "YOUR_APP_ID",
 };
 ```
-
-### 3. Build and run using Docker Compose
-```bash
-docker compose build
-docker compose up
-```
-Then open the app in your browser: http://localhost:5173/
-
-### 4. Run locally without Docker (optional)
+### 3. Run locally
 ```bash
 vercel dev
 ```
-Then open the app in your browser: http://localhost:5173/
+Then open the app in your browser: http://localhost:3000/
 
 ## Notes & Limitations
 - Some manga may fail to load due to inconsistent JSON structures returned by MangaDex.
