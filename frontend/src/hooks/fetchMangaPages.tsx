@@ -15,15 +15,7 @@ const useFetchMangaPages = (chapterId: string) => {
     axios
       .get(endpoint)
       .then((response) => {
-        const baseUrl = response.data.baseUrl;
-        const hash = response.data.chapter.hash;
-        const pages = response.data.chapter.data;
-
-        setData({
-          baseUrl: baseUrl,
-          hash: hash,
-          pages: pages,
-        });
+        setData(response.data);
         setIsLoading(false);
       })
       .catch((err) => {
