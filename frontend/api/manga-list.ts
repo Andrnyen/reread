@@ -16,7 +16,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Unknown endpoint" });
     }
 
-    const response = await axios.get(endpoint, {
+    const response = await axios.get(url, {
       headers: {
         "User-Agent": "Mozilla/5.0 MangaReader Proxy",
       },
