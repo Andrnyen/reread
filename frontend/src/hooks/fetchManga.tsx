@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { mdxProxy } from "../utils/mdxProxy";
 
 const useFetchManga = (mangaId: string) => {
-  const url =
-    `https://api.mangadex.org/manga/${mangaId}` +
-    `?includes[]=cover_art&includes[]=artist&includes[]=author`;
+  const endpoint = `/api/manga?mangaId=${mangaId}`;
 
   const [data, setData] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +11,7 @@ const useFetchManga = (mangaId: string) => {
   const fetchManga = () => {
     setIsLoading(true);
     axios
-      .get(url)
+      .get(endpoint)
       .then((response) => {
         setData(response.data.data);
         setIsLoading(false);

@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { mdxProxy } from "../utils/mdxProxy";
 
 const getScanlationGroup = (chapterId?: string) => {
   const [groupName, setGroupName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const url = `https://api.mangadex.org/chapter/${chapterId}?includes%5B%5D=scanlation_group`;
+
   const fetchGroup = () => {
     if (!chapterId) return;
 
     axios
-      .get(url)
+      .get(`/api/group?chapterId=${chapterId}`)
       .then((res) => {
         const groupRel = res?.data?.data?.relationships?.find(
           (r: any) => r.type === "scanlation_group"
