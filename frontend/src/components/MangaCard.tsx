@@ -8,6 +8,11 @@ interface MangaCardProps {
 }
 
 export default function MangaCard({ manga, coverArtFileName }: MangaCardProps) {
+  const title =
+    manga.attributes.title?.en ??
+    manga.attributes.altTitles?.find((t) => t?.en)?.en ??
+    "Unknown title";
+
   return (
     <Link
       to={`/manga/${manga.id}`} // Navigate to a new page based on the manga's ID
@@ -54,9 +59,7 @@ export default function MangaCard({ manga, coverArtFileName }: MangaCardProps) {
             }}
             align="center"
           >
-            {manga.attributes.title.en
-              ? manga.attributes.title.en
-              : manga.attributes.altTitles.filter((e) => "en" in e)[0].en}
+            {title}
           </Typography>
         </CardContent>
       </Card>
