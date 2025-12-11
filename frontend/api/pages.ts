@@ -22,10 +22,12 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Invalid chapter data" });
     }
 
+    const baseUrl = data.baseUrl;
     const hash = data.chapter.hash;
     const pages = data.chapter.data;
 
     return res.status(200).json({
+      baseUrl,
       hash,
       pages,
     });

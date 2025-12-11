@@ -1,12 +1,14 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard } from "swiper/modules";
+import { MangaPages } from "../types/Manga";
 
-interface MangaChapterProps {
-  pages: string[];
-  hash: string;
-}
+export default function MangaChapterViewer({
+  baseUrl,
+  pages,
+  hash,
+}: MangaPages) {
+  if (!pages || !Array.isArray(pages)) return <div>No pages found.</div>;
 
-export default function MangaChapterViewer({ pages, hash }: MangaChapterProps) {
   return (
     <Swiper
       modules={[Keyboard]}
@@ -25,7 +27,10 @@ export default function MangaChapterViewer({ pages, hash }: MangaChapterProps) {
             }}
           >
             <img
-              src={`https://uploads.mangadex.org/data/${hash}/${url}`}
+              src={`${baseUrl}/data/${hash}/${url}`}
+              onError={(e) => {
+                e.currentTarget.src = `${baseUrl}/data-saver/${hash}/${url}`;
+              }}
               alt={`Page ${index + 1}`}
               style={{
                 maxWidth: "100%",

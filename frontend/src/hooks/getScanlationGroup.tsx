@@ -11,7 +11,12 @@ const getScanlationGroup = (chapterId?: string) => {
     axios
       .get(`/api/group?chapterId=${chapterId}`)
       .then((res) => {
-        setGroupName(res.data.name);
+        const groupRel = res?.data?.data?.relationships?.find(
+          (r: any) => r.type === "scanlation_group"
+        );
+
+        const name = groupRel?.attributes?.name ?? null;
+        setGroupName(name);
       })
       .catch((err) => {
         setError(err.message);

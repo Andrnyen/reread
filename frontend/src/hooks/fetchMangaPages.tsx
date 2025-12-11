@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-interface MangaPages {
-  pages: string[];
-  saverPages: string[];
-  hash: string;
-  baseUrl: string;
-}
+import { MangaPages } from "../types/Manga";
 
 const useFetchMangaPages = (chapterId: string) => {
   const endpoint = `/api/pages?chapterId=${chapterId}`;
